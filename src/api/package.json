@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "ts-node-dev index.ts"
+    "start:dev": "ts-node-dev index.ts",
+    "build:api" : "tsc"
   },
   "author": "Michael Johnson",
   "license": "ISC",
