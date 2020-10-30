@@ -1,8 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "../components/Home.vue";
+import Dashboard from "../components/Dashboard.vue";
 import NotFound from "../views/NotFound.vue";
-import Books from "../components/Books"
+import Form from "../components/Form";
+import Login from "../components/Login";
+import LoginComplete from "../components/LoginComplete";
+import Profile from "../components/Profile";
+import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -13,12 +18,35 @@ const routes = [
     component: Home
   },
   {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard
+  },
+  {
     path: "/form",
     name: "Basic Form",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: Books
+    component: Form,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/sign-in",
+    name: "Login",
+    component: Login
+  },
+  {
+    path: "/login-complete",
+    name: "LoginComplete",
+    component: LoginComplete
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "*",
@@ -31,6 +59,25 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach(async (to, from, next) => {
+  var requiresAuth = to.meta.requiresAuth || false;
+
+  if (!requiresAuth) {
+    return next();
+  }
+
+  await store.dispatch("checkAuthentication");
+  var isAuthenticated = store.getters.isAuthenticated;
+
+  if (requiresAuth && !isAuthenticated) {
+    console.log("You aren't authenticatd, redirecting to sign-in")
+    next("/sign-in");
+    return;
+  }
+
+  return next();
 });
 
 export default router;

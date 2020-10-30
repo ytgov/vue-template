@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "ts-node-dev index.ts",
-    "build:api" : "tsc"
+    "build:api": "tsc"
   },
   "author": "Michael Johnson",
   "license": "ISC",
@@ -14,12 +14,17 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "helmet": "^4.1.1"
+    "express-session": "^1.17.1",
+    "helmet": "^4.1.1",
+    "openidconnect": "^1.0.0",
+    "passport": "^0.4.1",
+    "passport-openidconnect": "0.0.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.8",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.8",
+    "@types/express-session": "^1.17.0",
     "@types/helmet": "^4.0.0",
     "@types/node": "^14.14.5",
     "ts-loader": "^8.0.7",
