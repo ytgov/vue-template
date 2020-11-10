@@ -11,6 +11,16 @@ To develop within this environment, you must have Node.js and NPM installed on y
 
 Once both are running, open your browser and navigate to http://localhost:8080 to view the application.
 
+## Understanding the environment variables
+
+Environment variables should never be checked into the repository! 
+
+- API_PORT=(the port the API will be listening on (doesn't have to match the docker port))
+- FRONTEND_URL=(the url of the service, from browser)
+- AUTH_REDIRECT=(FRONTEND_URL from above)/login-complete
+- VIVVO_CLIENT_ID=(the client id provided for the service)
+- VIVVO_CLIENT_SECRET=(the client secret provided for the service)
+- VIVVO_CALLBACK_URL=(the fully qualified url of the API, must match setup in Vivvo)/authorization-code/callback
 
 ## Building the container image
 docker build -t vue-template .
