@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
-import { userRouter } from "./routes";
+import { userRouter, dataRouter } from "./routes";
 import * as config from './config';
 import { doHealthCheck } from "./utils/healthCheck";
 import { configureAuthentication } from "./routes/auth"
@@ -26,6 +26,7 @@ app.get("/api/healthCheck", (req: Request, res: Response) => {
 });
 
 app.use("/api/user", userRouter);
+app.use("/api/data", dataRouter);
 
 let baseWebPath = "/web";
 

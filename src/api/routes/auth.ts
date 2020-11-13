@@ -17,7 +17,7 @@ export function ensureLoggedIn(req: Request, res: Response, next: NextFunction) 
 export function configureAuthentication(app: Express) {
     app.use(ExpressSession.default({
         secret: 'supersecret',
-        resave: false,
+        resave: true,
         saveUninitialized: true
     }));
 

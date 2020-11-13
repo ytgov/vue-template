@@ -14,6 +14,11 @@ export const sections = [
         name: "Basic Form",
         url: "/form",
         icon: "mdi-book-open-variant"
+    },
+    {
+        name: "Data grid",
+        url: "/grid",
+        icon: "mdi-table-large"
     }
 ];
 export const environment = process.env.NODE_ENV;

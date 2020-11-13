@@ -4,6 +4,7 @@ import Home from "../components/Home.vue";
 import Dashboard from "../components/Dashboard.vue";
 import NotFound from "../views/NotFound.vue";
 import Form from "../components/Form";
+import Grid from "../components/Grid";
 import Login from "../components/Login";
 import LoginComplete from "../components/LoginComplete";
 import Profile from "../components/Profile";
@@ -26,6 +27,14 @@ const routes = [
     path: "/form",
     name: "Basic Form",
     component: Form,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/grid",
+    name: "Data grid",
+    component: Grid,
     meta: {
       requiresAuth: true
     }
