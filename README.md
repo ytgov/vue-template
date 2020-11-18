@@ -30,3 +30,9 @@ docker build -t vue-template .
 By default, the container will run in development mode, but following the step above, you can create the appropriate environment files for the instance you are targetting. Depending, the application will look for either `src/api/.env.test` or `src/api/.env.production`. To tell the API which instance to use, add the environment variable `NODE_ENV` to the docker run command like below.
 
 `docker run -p 8222:3000 -e NODE_ENV=production --restart=on-failure vue-template`
+
+## Registering yourself and your application
+
+The following is information on how to register new applications in the Yukon portal
+* [Registering a developer profile](documentation/GettingStarted.md)
+* [Creating and registering an application](documentation/CreateNewApplication.md)
