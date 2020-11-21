@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "helmet": "^4.1.1",
+    "openid-client": "^4.2.1",
     "passport": "^0.4.1"
   },
   "devDependencies": {
