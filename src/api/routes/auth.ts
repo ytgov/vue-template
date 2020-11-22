@@ -3,7 +3,27 @@ import * as ExpressSession from "express-session";
 import { AuthUser } from "../models/auth";
 import { AUTH_REDIRECT, VIVVO_CONFIG } from "../config";
 
-var OidcStrategy = require('passport-openidconnect').Strategy
+// Old
+// var OidcStrategy = require('passport-openidconnect').Strategy
+var OidcStrategy = require('openid-client').Strategy;
+
+const { Issuer } = require('openid-client');
+
+var yukonIssuer = new Issuer({
+    issuer: VIVVO_CONFIG.issuer,
+    authorization_endpoint: VIVVO_CONFIG.authorizationURL,
+    token_endpoint: VIVVO_CONFIG.tokenURL,
+    userinfo_endpoint: VIVVO_CONFIG.userInfoURL,
+    jwks_uri: 'https://yukon.vivvocloud.com/.well-known/jwks.json',
+});
+
+const yukonClient = new yukonIssuer.Client({
+  client_id: VIVVO_CONFIG.clientID,
+  client_secret: VIVVO_CONFIG.clientSecret,
+  redirect_uris: [VIVVO_CONFIG.callbackURL],
+  response_types: ['code'],
+});
+
 var passport = require('passport')
 
 export function ensureLoggedIn(req: Request, res: Response, next: NextFunction) {
@@ -33,7 +53,12 @@ export function configureAuthentication(app: Express) {
         next(null, obj)
     });
 
-    passport.use('oidc', new OidcStrategy(VIVVO_CONFIG,
+    passport.use('oidc', new OidcStrategy({
+          client: yukonClient,
+          // Currently an issue where CitizenOne token endpoint returns a 
+          // token with a token_type of "bearer" (lower case), but then requires
+          // the Athorization header to be "Bearer" (upper case).
+        },
         (issuer: any, sub: any, profile: any, accessToken: any, refreshToken: any, done: any) => {
             return done(null, profile)
         }));
@@ -59,14 +84,21 @@ export function configureAuthentication(app: Express) {
     });
 
     app.use('/authorization-code/callback',
-        passport.authenticate('oidc', { failureRedirect: '/api/error' }),
+        passport.authenticate('oidc', { 
+          failureRedirect: '/api/error',
+          // Capture failure message in req.session.messages for debugging.
+          failureMessage: true
+         }),
         (req, res) => {
             res.redirect(AUTH_REDIRECT);
         }
     );
 
     app.use("/api/error", (req: Request, res: Response) => {
-        console.log(req)
+        if (req.session) {
+          console.log(req.session.messages);
+        }
+        
         res.status(500).send("Authentication error");
     })
 }
