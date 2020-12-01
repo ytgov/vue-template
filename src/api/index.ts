@@ -10,7 +10,23 @@ const app = express();
 
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-app.use(helmet());
+//app.use(helmet());
+app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        'default-src': [ "'self'" ],
+        'base-uri': [ "'self'" ],
+        'block-all-mixed-content': [],
+        'font-src': [ "'self'", 'https:', 'data:' ],
+        'frame-ancestors': [ "'self'" ],
+        'img-src': [ "'self'", 'data:' ],
+        'object-src': [ "'none'" ],
+        'script-src': [ "'self'" ],
+        'script-src-attr': [ "'none'" ],
+        'style-src': [ "'self'", 'https:', "'unsafe-inline'" ]
+      },
+    })
+  );
 
 // very basic CORS setup
 app.use(cors({
