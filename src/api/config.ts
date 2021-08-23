@@ -34,12 +34,3 @@ export const VIVVO_CONFIG = {
   callbackURL: process.env.VIVVO_CALLBACK_URL || "",
   scope: 'openid profile email phone address'
 }
-
-export const AUTH_CONFIG = {
-  authRequired: false,
-  auth0Logout: true,
-  baseURL: 'https://YOUR_APPLICATION_ROOT_URL',
-  clientID: 'CLIENT_ID',
-  issuerBaseURL: 'https://YOUR_DOMAIN',
-  secret: 'LONG_RANDOM_STRING'
-}
