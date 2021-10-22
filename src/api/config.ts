@@ -23,14 +23,3 @@ export const DB_USER = process.env.DB_USER || "postgres";
 export const DB_PASS = process.env.DB_PASS || "password";
 export const DB_HOST = process.env.DB_HOST || "localhost";
 export const DB_PORT = process.env.DB_PORT || "5432";
-
-export const VIVVO_CONFIG = {
-  issuer: 'https://yukon.vivvocloud.com/',
-  authorizationURL: 'https://yukon.vivvocloud.com/oauth/v2/authorize',
-  tokenURL: 'https://yukon.vivvocloud.com/oauth/v2/token',
-  userInfoURL: 'https://yukon.vivvocloud.com/oauth/v2/userinfo',
-  clientID: process.env.VIVVO_CLIENT_ID || "",
-  clientSecret: process.env.VIVVO_CLIENT_SECRET || "",
-  callbackURL: process.env.VIVVO_CALLBACK_URL || "",
-  scope: 'openid profile email phone address'
-}
