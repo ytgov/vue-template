@@ -24,10 +24,9 @@
     "@vue/cli-service": "~4.5.15",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.1.0",
+    "eslint": "^7.0.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.0.3",
-    "prettier": "^2.4.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
@@ -37,13 +36,16 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended",
-      "@vue/prettier"
+      "eslint:recommended"
     ],
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": [
+        "error", {"ignores": ["Form","Profile","Login","Home","Grid"]
+        }]
+    }
   },
   "browserslist": [
     "> 1%",
