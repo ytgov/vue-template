@@ -41,7 +41,11 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": [
+        "error", {"ignores": ["Form","Profile","Login","Home","Grid"]
+        }]
+    }
   },
   "browserslist": [
     "> 1%",
