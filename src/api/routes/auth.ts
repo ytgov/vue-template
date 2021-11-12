@@ -1,9 +1,8 @@
 import { Express, NextFunction, Request, Response } from "express"
 import * as ExpressSession from "express-session";
 import { AuthUser } from "../models/auth";
-import { AUTH_REDIRECT, FRONTEND_URL } from "../config";
+import { AUTH_REDIRECT, FRONTEND_URL, CLIENT_ID, ISSUER_BASE_URL, CLIENT_SECRET } from "../config";
 import {auth} from 'express-openid-connect'
-
 
 export function configureAuthentication(app: Express) {
 
@@ -16,6 +15,9 @@ export function configureAuthentication(app: Express) {
     app.use(auth({
         authRequired: false,
         auth0Logout: false,
+        clientID: CLIENT_ID,
+        issuerBaseURL: ISSUER_BASE_URL,
+        secret: CLIENT_SECRET,
         authorizationParams: {
             response_type: 'code',
             audience: '',
@@ -66,18 +68,15 @@ export function configureAuthentication(app: Express) {
         await (res as any).oidc.logout();
     });
 
-    
     app.use("/api/error", (req: Request, res: Response) => {
         console.log(req)
         res.status(500).send("Authentication error");
     })
 }
 
-
 export function EnsureAuthenticated(req: Request, res: Response, next: NextFunction) {
     if (req.oidc.isAuthenticated()) {
         return next();
     }
-
     res.status(401).send("Not authenticated"); //;.redirect('/api/auth/login');
 }

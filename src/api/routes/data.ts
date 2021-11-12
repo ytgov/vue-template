@@ -29,7 +29,6 @@ dataRouter.post("/", EnsureAuthenticated, async (req: Request, res: Response) =>
             results = results.filter(item => { return item.name.indexOf(searchTerm) >= 0; })
         }
 
-
         if (sortBy.length > 0) {
             const sorter = sortBy[0];
 
