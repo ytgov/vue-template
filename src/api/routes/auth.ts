@@ -1,18 +1,9 @@
 import { Express, NextFunction, Request, Response } from "express"
 import * as ExpressSession from "express-session";
 import { AuthUser } from "../models/auth";
-import { AUTH_REDIRECT, VIVVO_CONFIG } from "../config";
-import { FRONTEND_URL } from "../config";
+import { AUTH_REDIRECT, FRONTEND_URL } from "../config";
+import {auth} from 'express-openid-connect'
 
-const {auth} = require('express-openid-connect')
-
-export function ensureLoggedIn(req: Request, res: Response, next: NextFunction) {
-    if (req.oidc.isAuthenticated()) {
-        return next();
-    }
-
-    res.redirect('/login');
-}
 
 export function configureAuthentication(app: Express) {
 
@@ -24,9 +15,14 @@ export function configureAuthentication(app: Express) {
 
     app.use(auth({
         authRequired: false,
-        auth0Logout: false, // This is false so that you don't get completely logged out of azure (other yg apps) on logout
+        auth0Logout: false,
+        authorizationParams: {
+            response_type: 'code',
+            audience: '',
+            scope: 'openid profile email',
+        },
         routes: {
-            login: "/api/auth/login", // Overides default express-openid-connect routes
+            login: "/api/auth/login",
             //logout: "/api/auth/logout",
             postLogoutRedirect: FRONTEND_URL
         }
@@ -34,7 +30,9 @@ export function configureAuthentication(app: Express) {
 
     app.use("/", async (req: Request, res: Response, next: NextFunction) => {
         if (req.oidc.isAuthenticated()) {
-            req.user = AuthUser.fromOpenId(req.oidc.user);
+            let oidcUser = AuthUser.fromOpenId(req.oidc.user);
+            (req.session as any).user = oidcUser;
+            req.user = oidcUser;
         }
 
         next();
@@ -57,7 +55,6 @@ export function configureAuthentication(app: Express) {
     app.get("/api/auth/isAuthenticated", async (req: Request, res: Response) => {
         if (req.oidc.isAuthenticated()) {
             let person = req.user;
-            //let me = await db.getByEmail(person.email);
             return res.json({ data: person });
         }
         return res.status(401).send();
