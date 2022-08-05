@@ -11,7 +11,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "core-js": "^3.24.1",
-    "vue": "^2.6.11",
+    "vue": "^2.7.8",
     "vue-router": "^3.5.3",
     "vuetify": "^2.6.8",
     "vuex": "^3.4.0"
@@ -27,7 +27,7 @@
     "eslint": "^8.21.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^9.3.0",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.7.8"
   },
   "eslintConfig": {
     "root": true,
